@@ -1,0 +1,82 @@
+import tkinter as tk
+from tkinter import messagebox
+from utils.time_utils import check_conflict
+import json
+
+class MeetingSchedulerApp:
+    def __init__(self, root, agent_system):
+        self.root = root
+        self.root.title("Smart Office Meeting Scheduler")
+        self.root.geometry("400x300")
+
+        # Initialize the agent system passed from main.py
+        self.agent_system = agent_system
+
+        # Meeting Schedule List
+        self.schedule = self.agent_system.get_schedule()  # Getting the initial schedule from agent system
+
+        # Title Label
+        self.title_label = tk.Label(self.root, text="Meeting Scheduler", font=("Helvetica", 16))
+        self.title_label.pack(pady=10)
+
+        # Command Entry (for natural language input)
+        self.command_label = tk.Label(self.root, text="Enter Command (e.g., schedule a meeting):")
+        self.command_label.pack(pady=5)
+        self.command_entry = tk.Entry(self.root)
+        self.command_entry.pack(pady=5)
+
+        # Process Command Button
+        self.process_button = tk.Button(self.root, text="Process Command", command=self.process_command)
+        self.process_button.pack(pady=20)
+
+    def check_for_conflict(self):
+        # Get the user input for time and participants
+        time = self.time_entry.get()
+        participants = self.participants_entry.get().split(",")
+        participants = [p.strip() for p in participants]  # Clean up extra spaces
+
+        # Check for conflict using the check_conflict function from utils
+        if check_conflict(self.schedule, time, participants):
+            messagebox.showinfo("Conflict Detected", "There is a scheduling conflict!")
+        else:
+            messagebox.showinfo("Meeting Scheduled", "Meeting scheduled successfully.")
+
+            # Add the new meeting to the agent system and the schedule
+            self.agent_system.schedule_meeting(time, participants)
+
+            # Update the schedule in the GUI after adding
+            self.schedule = self.agent_system.get_schedule()
+
+            # Save the updated schedule (both previous and new meetings)
+            self.save_schedule_to_json(self.schedule)
+
+    def save_schedule_to_json(self, schedule):
+        # Define the path where the schedule JSON file will be saved
+        json_file_path = 'data/schedule.json'
+
+        # Write the updated schedule to the JSON file (append new records to the old ones)
+        with open(json_file_path, 'w') as json_file:
+            json.dump(schedule, json_file, indent=4)
+
+    def load_schedule_from_json(self):
+        # Define the path where the schedule JSON file is stored
+        json_file_path = 'data/schedule.json'
+
+        # Check if the file exists to prevent errors on first run
+        try:
+            with open(json_file_path, 'r') as json_file:
+                schedule = json.load(json_file)
+        except FileNotFoundError:
+            schedule = []  # If the file doesn't exist, return an empty list
+
+        return schedule
+
+    def process_command(self):
+        # Get the user input (natural language command)
+        command = self.command_entry.get()
+
+        # Process the command using the AgentSystem
+        response = self.agent_system.handle_command(command)
+
+        # Display the AI response or error message
+        messagebox.showinfo("Response", response)

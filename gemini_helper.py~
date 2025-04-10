@@ -1,0 +1,22 @@
+from google.cloud import dialogflow_v2beta1 as dialogflow
+import os
+
+# Set up credentials
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path_to_your_credentials_file.json"
+
+class GeminiAI:
+    def __init__(self):
+        self.project_id = "your-google-cloud-project-id"
+        self.session_client = dialogflow.SessionsClient()
+        self.session_id = "111947658842564522379"
+        self.session = self.session_client.session_path(self.project_id, self.session_id)
+
+    def detect_intent(self, text):
+        text_input = dialogflow.TextInput(text=text, language_code="en")
+        query_input = dialogflow.QueryInput(text=text_input)
+
+        response = self.session_client.detect_intent(request={"session": self.session, "query_input": query_input})
+
+        intent = response.query_result.intent.display_name
+        fulfillment_text = response.query_result.fulfillment_text
+        return intent, fulfillment_text

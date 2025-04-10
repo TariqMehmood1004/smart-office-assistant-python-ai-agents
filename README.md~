@@ -42,6 +42,9 @@ smart_office_assistant/
 │   └── voice_input.py  # Optional
 ├── nlp/
 │   └── parser.py
+├── gui/
+│   ├── __init__.py      # Initializes the GUI package
+│   ├── scheduler_gui.py # GUI code
 ├── data/
 │   └── schedule.json
 ├── core/
@@ -50,6 +53,7 @@ smart_office_assistant/
 │   └── time_utils.py
 ├── main.py
 └── README.md
+└── test_time_utils.py
 ```
 
 ## Installation:
@@ -84,22 +88,47 @@ If you have any suggestions or contributions, please feel free to open a pull re
 * [NLTK](https://pypi.org/project/nltk/)
 * [spaCy](https://spacy.io/)
 
+## Future Enhancements:
+### 1. Add Meeting Duration
+Allow users to input the duration of the meeting (e.g., 1 hour, 30 minutes). You could also calculate the end time automatically based on the start time and duration.
+
+### 2. Add Room Selection
+If you have multiple rooms available for meetings, add functionality for the user to select a room where the meeting will take place.
+
+### 3. Participants Validation
+Implement logic to ensure that participants exist in your system or are part of your organization (you can store a list of valid participants or pull from an external source).
+
+### 4. Recurring Meetings
+Allow users to schedule recurring meetings, such as weekly or monthly meetings.
+
+### 5. Push Notifications
+Integrate notifications or reminders to remind users of scheduled meetings before they start (e.g., 10 minutes before the meeting).
+
+### 6. Graphical View of Schedule
+Add a calendar or timeline view to display the scheduled meetings in a more visual format.
+
+### 7. Meeting Notes and Documents
+Allow users to attach notes or files (e.g., agendas or documents) to each meeting.
+
+### 8. User Authentication (Login System)
+Add user authentication and make sure each user has their own schedule, rather than one shared schedule.
+
+### 9. Admin Features
+Allow an admin user to view all schedules, modify them, and possibly approve or reject meeting requests.
+
+### 10. Integration with Calendar Apps (Google, Outlook)
+Allow the user to sync the meetings with external calendar apps like Google Calendar or Outlook.
+
+### 11. Custom Conflict Resolution
+Implement a more advanced conflict resolution system where you suggest alternative times if there's a conflict with the meeting time.
+
+### 12. UI/UX Enhancements
+Improve the UI with better styling, animations, and a more modern look. Maybe even add a dark mode for better accessibility.
+
+
 ## Contact:
 For any questions or feedback, please reach out to [GitHub](https://github.com/TariqMehmood1004) | 
 [LinkedIn](https://www.linkedin.com/in/tariq-mehmood-3ab013254/) | [Email](mailto:johnbrrighte@engineer.com).
 
-## Future Enhancements:
-* Add a web interface for remote control
-* Integrate with a smart home system (e.g., Google Home, Amazon Alexa)
-* Add support for voice commands
-* Implement machine learning for better decision-making
-* Add more agents for different functionalities (e.g., security, maintenance)
-* Implement a database for persistent storage of schedules and device states
-* Add a user authentication system for security
-* Implement a logging system for tracking actions and decisions made by the agents
-* Add a mobile app interface for remote control
-* Implement a machine learning model to predict user behavior and automate tasks accordingly
-* Integrate with third-party APIs for additional functionalities (e.g., weather, traffic)
-* Add a dashboard for visualizing the status of the office (e.g., occupancy, device states)
-* Implement a feedback system for users to provide suggestions or report issues
+
 

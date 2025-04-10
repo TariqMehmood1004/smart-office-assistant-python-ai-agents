@@ -7,27 +7,22 @@ class AgentSystem:
     def __init__(self):
         self.room = RoomAgent("MeetingRoom1")
         self.meeting = MeetingAgent()
-        self.schedule = []  # Initialize with an empty schedule
+        self.ai = GeminiAI()
 
     def handle_command(self, text):
-        command = parse_command(text)
-        intent = command.get("intent")
-
+        intent, response = self.ai.detect_intent(text)
         if intent == "schedule_meeting":
-            time = command.get("time", "3PM")
-            participants = command.get("participants", ["Alice", "Bob"])
-            return self.schedule_meeting(time, participants)
-
+            # Example: Extract time and participants from the response if needed
+            time = "2PM"  # You can use AI to extract time from the response
+            participants = ["Alice", "Bob"]  # Extract participants if mentioned
+            return self.meeting.schedule_meeting(time, participants)
         elif intent == "toggle_device":
-            device = command.get("device", "lights")
-            action = command.get("action", "on")
-            return self.toggle_device(device, action)
-
+            action = "on"  # AI can help determine the action (e.g., on/off)
+            return self.room.toggle_device("lights", action == "on")
         elif intent == "update_occupancy":
-            value = command.get("value", 0)
-            return self.update_occupancy(value)
-
-        return "Sorry, I didn't understand that."
+            value = 5  # You can get the occupancy number from the AI response
+            return self.room.update_occupancy(value)
+        return response  # Return AI's response if the intent is not recognized
 
     def schedule_meeting(self, time, participants):
         meeting = {"time": time, "participants": participants}
